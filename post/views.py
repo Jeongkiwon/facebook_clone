@@ -53,7 +53,7 @@ class SearchFormView(FormView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['content']
+    fields = ['content','photo']
     success_url = reverse_lazy('post:index')
 
     def form_valid(self, form):
@@ -62,7 +62,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UpdateView) :
     model = Post
-    fields = ['content']
+    fields = ['content', 'photo']
     success_url = reverse_lazy('post:index')
 
 class PostDeleteView(LoginRequiredMixin, DeleteView) :

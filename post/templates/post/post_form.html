@@ -3,24 +3,29 @@
 {% block title %}post_form.html{% endblock %}
 
 {% load staticfiles %}
-{% block extrastyle %}{% static "css/forms.css" %}{% endblock %}
+{% block extrastyle %}{% static "css/form.css" %}{% endblock %}
 
 {% block content %}
 <div id="content">
 
     <h1>Post Create/Update - {{user}}</h1>
 
-    <form action="." method="post">{% csrf_token %}
+    <form action="." enctype="multipart/form-data" method="post">{% csrf_token %}
 
     {% if form.errors %}
     <p class="errornote">Wrong! Please correct the error(s) below.</p>
+        {% for error in field.errors %}
+				<span class="help-block">{{ error }}</span>
+        {% endfor %}
     {% endif %}
 
     <p>This is a creation or update form for your post.</p>
 
     <fieldset class="aligned">
 
-
+        <div class="form-row">
+            {{ form.photo.label_tag }} {{ form.photo }}
+        </div>
         <div class="form-row">
             {{ form.content.label_tag }} {{ form.content }}
         </div>

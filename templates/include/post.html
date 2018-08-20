@@ -1,0 +1,111 @@
+{% load static %}
+<div class="panel panel-default post-item">
+	{% if user.username == post.author.username %}
+	<span>
+    <a href="{% url 'post:post_update' post_pk=post.pk %}"><img src="{% static 'image/edit.png' %}" class= "edit" alt="수정"></a>
+    <a href="{% url 'post:post_delete' post_pk=post.pk %}" onclick="return confirm('정말 삭제하시겠습니까?')"><img src="{% static 'image/delete.png' %}" class="delete" alt="삭제"></a>
+  	</span>
+	{% endif %}
+	{% if post_type == 'list' %}
+	<div>
+		<div class="post_username">
+			{{post.author}}
+				{% if post.modify_date.exists %}
+					{{post.modify_date}}
+				{% else %}
+					{{post.create_date}}
+				{% endif %}
+		</div>
+		<a href="{% url 'post:post_detail' post_pk=post.pk %}">
+			<img src="{{ post.photo.url }}" alt="" class="post-image">
+		</a>
+		<div class="post_content">
+			{{post.descriptions}}
+		</div>
+	</div>
+
+	{% else %}
+	<div>
+		<div class="post_username">
+			{{post.author}}
+		</div>
+		<img src="{{ post.photo.url }}" alt="" class="post-image">
+		<div class="post_content">
+			{{post.descriptions}}
+		</div>
+	</div>
+	{% endif %}
+	<div class="panel-body">
+		<div class="like">
+			<div class="like_button">
+		<form
+			action="{% url 'post:post_like_toggle' post_pk=post.pk %}?next=
+				{% if post_type == 'list' %}
+					{% url 'post:post_list' %}#post-{{ post.pk }}
+				{% elif post_type == 'detail' %}
+					{% url 'post:post_detail' post_pk=post.pk %}
+				{% endif %}"
+			method="POST"
+			class="form-inline">
+			{% csrf_token %}
+			<button class="btn btn-default btn-post-toggle" aria-label="Like button">
+			  <span
+				  class="glyphicon
+				    {% if post in user.like_posts.all %}
+				      glyphicon-heart
+						{% else %}
+							glyphicon-heart-empty
+						{% endif %}"
+				  aria-hidden="true">Like</span>
+			</button>
+		</form>
+
+	</div>
+		<div class="like_count">
+			{% with like_count=post.like_users.count %}
+		{% if like_count %}
+		<p class="like-count">
+			{% if like_count < 3 %}
+				<b>
+				{% for user in post.like_users.all %}
+					{{ user.username }}{% if not forloop.last %}, {% endif %}
+				{% endfor %}
+				</b>
+				님이 좋아합니다
+			{% else %}
+				<b>좋아요 {{ like_count }}개</b>
+			{% endif %}
+		</p>
+		{% endif %}
+	{% endwith %}
+		</div>
+		</div>
+
+
+
+		{% if post.comments.exists %}
+		<ul class="comment-list">
+			{% for comment in post.comments.all %}
+			<li class="comment">
+				<span class="comment-author">{{ comment.author }}</span>
+				<span class="comment-content">{{ comment.content }}</span>
+			</li>
+			{% endfor %}
+		</ul>
+		<hr>
+		{% endif %}
+
+		<form
+			action="{% url 'post:comment_create' post_pk=post.pk %}?next=
+			{% if post_type == 'list' %}
+				{% url 'post:post_list' %}#post-{{ post.pk }}
+			{% elif post_type == 'detail' %}
+				{% url 'post:post_detail' post_pk=post.pk %}
+			{% endif %}"
+			method="POST"
+			class="comment-form">
+			{% csrf_token %}
+			{{ comment_form.content }}
+		</form>
+	</div>
+</div>

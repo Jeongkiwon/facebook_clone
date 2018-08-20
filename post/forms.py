@@ -30,3 +30,36 @@ class CommentForm(forms.ModelForm):
         if errors:
             raise forms.ValidationError(errors)
         return data
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = (
+            'photo',
+            'content',
+        )
+        widgets = {
+            'content': forms.TextInput(
+                attrs={
+                    'class': 'content',
+                    'placeholder': '내용을 입력하세요.',
+                }
+            )
+        }
+
+class UpdateForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = (
+            'photo',
+            'content',
+        )
+        widgets = {
+
+            'content': forms.TextInput(
+                attrs={
+                    'class': 'content',
+                    'placeholder': '내용을 입력하세요.',
+                }
+            )
+        }

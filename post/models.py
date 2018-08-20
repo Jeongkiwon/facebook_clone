@@ -1,5 +1,6 @@
 
 from django.db import models
+from django.conf import settings
 from django.urls import reverse
 from django.contrib.auth.models import User
 
@@ -8,6 +9,7 @@ from django.contrib.auth.models import User
 
 class Post(models.Model):
     content = models.TextField('CONTENT')
+    photo = models.ImageField(upload_to='post')
     create_date = models.DateTimeField('Create Date', auto_now_add=True)
     modify_date = models.DateTimeField('Modify Date', auto_now=True)
     owner = models.ForeignKey(User, null=True,  on_delete=models.CASCADE)
@@ -16,7 +18,7 @@ class Post(models.Model):
         verbose_name = 'post'
         verbose_name_plural = 'posts'
         db_table  = 'my_post'#데이터베이스 테이블에서 이름을 정의, 지정 안하면 appname_classname 된다.
-        ordering  = ('modify_date',)
+        ordering  = ('-modify_date',)
 
     def __str__(self):
         return self.content
@@ -30,6 +32,5 @@ class Comment(models.Model):
     owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     content = models.TextField()
 
-
     def __str__(self):
-        return f'Comment (PK: {self.pk}, Author: {self.owner.username})'
+        return self.owner
