@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Change My Life-TodoList{% endblock %}
+{% load staticfiles %}
+{% block extrastyle %}{% static "css/todo.css" %}{% endblock %}
+
+{% block content %}
+<div class="body">
+<div class="left">
+
+</div>
+<div class="content">
+    <h1>{{user}}</h1>
+    <a href="{% url 'post:add' %}">Add Todo</a>
+    <a href="{% url 'post:index'%}">All People TodoList</a>
+
+        {% for post in posts %}
+        <div class="todo_list">
+            <div class="todo">
+                <div class="todo_owner">
+                    {{ post.owner }}{{ post.modify_date}}
+                </div>
+                <div class="todo_content">
+                    {{ post.content }}
+                </div>
+            </div>
+            <div class="todo_UD">
+                {% if user == post.owner %}
+	                <a href="{% url 'post:update' post.id %}">Update</a>
+                    <a href="{% url 'post:delete' post.id %}">Delete</a>
+	            {% endif %}
+            </div>
+
+            {% if post.comments.exists %}
+                <ul class="comment-list">
+                    {% for comment in post.comments.all %}
+                    <li class="comment">
+                        <span class="comment-owner">{{ comment.owner }}</span>
+                        <span class="comment-content">{{ comment.content }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <hr>
+                {% endif %}
+
+               <form action="{% url 'post:my_comment_create' post_pk=post.pk %}" method="POST" class="comment-form">
+				{% csrf_token %}
+				<input type="text" name="content" placeholder="댓글 달기...">
+			    </form>
+        </div>
+        {% endfor %}
+</div>
+<div class="right">
+
+</div>
+</div>
+{% endblock %}

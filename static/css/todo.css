@@ -1,0 +1,28 @@
+div.body{
+    display:flex;
+}
+div.left{
+    width:15%;
+}
+div.right{
+    width:25%;
+}
+div.content{
+    width:60%;
+}
+div.todo_list{
+    width:100%;
+    display:flex;
+    border:solid gray 1px;
+    margin-top: 20px;
+    padding:5px;
+}
+div.todo{
+    width:90%;
+}
+div.todo_UD{
+    width:10%;
+}
+div.todo_content{
+    margin:10px;
+}
