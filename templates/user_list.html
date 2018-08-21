@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock %}
+
+{% load staticfiles %}
+{% block extrastyle %}{% static "css/home.css" %}{% endblock %}
+
+{% block content %}
+<div class="content">메인 화면</div>
+    {% for user in users %}
+        <div>
+            <a href="{% url 'user_detail' user_pk=user.id %}">
+			{{ user.username }}
+		    </a>
+        </div>
+
+    {% endfor %}
+{% endblock content %}
+
+{% block footer %}
+<div class="footer">푸터</div>
+{% endblock footer %}

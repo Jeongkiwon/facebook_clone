@@ -18,17 +18,20 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
-
+from . import views
 from main.views import HomeView
 from main.views import UserCreateView, UserCreateDoneTV
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'^accounts/user_list', views.user_list, name="user_list"),
+    url(r'^accounts/(?P<user_pk>\d+)/$', views.user_detail, name='user_detail'),
     url(r'^accounts/register/$', UserCreateView.as_view(), name='register'),
     url(r'^accounts/register/done/$', UserCreateDoneTV.as_view(), name='register_done'),
 
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^post/', include('post.urls', namespace='post')),
+
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

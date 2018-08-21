@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock %}
+
+{% load staticfiles %}
+{% block extrastyle %}{% static "css/home.css" %}{% endblock %}
+
+{% block content %}
+<div class="content">메인 화면</div>
+    {{user.username}}
+{% endblock content %}
+
+{% block footer %}
+<div class="footer">푸터</div>
+{% endblock footer %}
