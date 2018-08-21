@@ -26,8 +26,26 @@ def post_list(request):
     }
     return render(request, 'post/post.html', context)
 
+def user_detail(request, user_pk):
+    user = get_object_or_404(User, pk=user_pk)
+    posts = Post.objects.filter(owner=user)
+    context = {
+        'user': user,
+        'posts': posts,
+    }
+    return render(request, 'user_detail.html', context)
+
 def my_post_list(request):
     posts = Post.objects.filter(owner=request.user)
+    comment_form = CommentForm()
+    context = {
+        'posts': posts,
+        'comment_form': comment_form,
+    }
+    return render(request, 'post/my_post.html', context)
+
+def user_post_list(request):
+    posts = Post.objects.filter(owner=user)
     comment_form = CommentForm()
     context = {
         'posts': posts,

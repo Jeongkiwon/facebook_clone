@@ -8,6 +8,44 @@
 {% block content %}
 <div class="content">메인 화면</div>
     {{user.username}}
+    {% for post in posts %}
+        <div class="todo_list">
+            <div class="todo">
+                <div class="todo_owner">
+                    {{ post.owner }}{{ post.modify_date}}
+                </div>
+                <div class="todo_photo">
+                    <img src="{{ post.photo.url }}" alt="" class="post-image">
+                </div>
+                <div class="todo_content">
+                    {{ post.content }}
+                </div>
+            </div>
+            <div class="todo_UD">
+                {% if user == post.owner %}
+	                <a href="{% url 'post:update' post.id %}">Update</a>
+                    <a href="{% url 'post:delete' post.id %}">Delete</a>
+	            {% endif %}
+            </div>
+
+            {% if post.comments.exists %}
+                <ul class="comment-list">
+                    {% for comment in post.comments.all %}
+                    <li class="comment">
+                        <span class="comment-owner">{{ comment.owner }}</span>
+                        <span class="comment-content">{{ comment.content }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <hr>
+                {% endif %}
+
+               <form action="{% url 'post:comment_create' post_pk=post.pk %}" method="POST" class="comment-form">
+				{% csrf_token %}
+				<input type="text" name="content" placeholder="댓글 달기...">
+			    </form>
+        </div>
+    {% endfor %}
 {% endblock content %}
 
 {% block footer %}

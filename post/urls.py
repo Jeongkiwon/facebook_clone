@@ -14,7 +14,7 @@ urlpatterns = [
         views.my_post_list, name="my_post",
     ),
     url (r'^search/$', SearchFormView.as_view(), name='search'),
-
+    url(r'^accounts/(?P<user_pk>\d+)/$', views.user_detail, name='user_detail'),
     # Example: /add/
     url(r'^add/$',
         PostCreateView.as_view(), name="add",

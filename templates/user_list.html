@@ -9,7 +9,7 @@
 <div class="content">메인 화면</div>
     {% for user in users %}
         <div>
-            <a href="{% url 'user_detail' user_pk=user.id %}">
+            <a href="{% url 'post:user_detail' user_pk=user.id %}">
 			{{ user.username }}
 		    </a>
         </div>

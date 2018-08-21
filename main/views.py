@@ -15,12 +15,6 @@ def user_list(request):
     }
     return render(request, 'user_list.html', context)
 
-def user_detail(request, user_pk):
-    user = get_object_or_404(User, pk=user_pk)
-    context = {
-        'user': user,
-    }
-    return render(request, 'user_detail.html', context)
 #--- TemplateView
 class HomeView(TemplateView):
     template_name = 'home.html'
