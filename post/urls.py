@@ -29,5 +29,5 @@ urlpatterns = [
         PostDeleteView.as_view(), name="delete",
     ),
     url(r'^(?P<post_pk>\d+)/comment/create/$', views.comment_create, name='comment_create'),
-    url(r'^my_post/(?P<post_pk>\d+)/comment/create/$', views.my_comment_create, name='my_comment_create'),
+
 ]
